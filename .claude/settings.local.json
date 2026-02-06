@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:veloria.pxxl.click)",
+      "WebFetch(domain:makeyourval.lovable.app)",
+      "WebSearch",
+      "WebFetch(domain:valrequestt.lovable.app)",
+      "WebFetch(domain:github.com)",
+      "Bash(dir /s \"D:\\\\Bootstrap\\\\Valentine Proposal\")",
+      "WebFetch(domain:tbanda27.github.io)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git rebase:*)",
+      "Bash(git reset:*)",
+      "Bash(git checkout:*)",
+      "Bash(git stash:*)",
+      "Bash(gh repo view:*)"
+    ]
+  }
+}
