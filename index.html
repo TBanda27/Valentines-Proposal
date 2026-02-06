@@ -557,24 +557,156 @@
 
         /* Responsive adjustments */
         @media (max-width: 600px) {
+            .creator-container {
+                padding: 1rem;
+            }
+
             .creator-card {
-                padding: 2rem;
+                padding: 1.5rem;
+                border-radius: 20px;
+            }
+
+            .heart-icon {
+                font-size: 3rem;
             }
 
             .creator-title {
-                font-size: 2.6rem;
+                font-size: 2rem;
+            }
+
+            .creator-subtitle {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .form-group label {
+                font-size: 1rem;
+            }
+
+            .form-group input {
+                padding: 0.85rem 1rem;
+                font-size: 1rem;
+            }
+
+            .generate-btn {
+                padding: 1rem;
+                font-size: 1.1rem;
+            }
+
+            .letter-container {
+                padding: 0.5rem;
             }
 
             .letter-paper {
-                padding: 2rem;
+                padding: 1.25rem 1.5rem;
+                border-radius: 12px;
+                max-width: 100%;
+            }
+
+            .letter-paper::before {
+                font-size: 12rem;
+            }
+
+            .letter-greeting {
+                font-size: 1.5rem;
+                margin-bottom: 0.3rem;
+            }
+
+            .letter-body {
+                font-size: 1.1rem;
+                line-height: 1.4;
+            }
+
+            .letter-question {
+                font-size: 1.5rem;
+                margin: 0.6rem 0;
+            }
+
+            .letter-closing {
+                font-size: 1.2rem;
+            }
+
+            .button-container {
+                margin-top: 0.75rem;
+            }
+
+            .yes-btn {
+                padding: 0.85rem 3rem;
+                font-size: 1.5rem;
+            }
+
+            .no-btn {
+                padding: 0.5rem 1.5rem;
+                font-size: 1rem;
             }
 
             .celebration-text {
-                padding: 2rem;
+                padding: 1.5rem;
+                max-width: 95%;
             }
 
             .celebration-title {
+                font-size: 1.6rem;
+            }
+
+            .celebration-message {
+                font-size: 1rem;
+            }
+
+            .celebration-heart {
                 font-size: 2rem;
+                margin: 1rem 0;
+            }
+
+            .celebration-screenshot {
+                font-size: 0.85rem;
+            }
+
+            .music-toggle {
+                width: 44px;
+                height: 44px;
+                bottom: 15px;
+                right: 15px;
+            }
+
+            .link-output {
+                padding: 1rem;
+            }
+
+            .link-box {
+                flex-direction: column;
+            }
+
+            .link-box input {
+                font-size: 0.8rem;
+            }
+
+            .copy-btn {
+                width: 100%;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 380px) {
+            .creator-title {
+                font-size: 1.7rem;
+            }
+
+            .letter-greeting {
+                font-size: 1.3rem;
+            }
+
+            .letter-body {
+                font-size: 1rem;
+            }
+
+            .letter-question {
+                font-size: 1.3rem;
+            }
+
+            .yes-btn {
+                padding: 0.75rem 2.5rem;
+                font-size: 1.3rem;
             }
         }
     </style>
