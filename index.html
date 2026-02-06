@@ -595,16 +595,21 @@
 
             .letter-container {
                 padding: 0.5rem;
+                min-height: 100vh;
             }
 
             .letter-paper {
-                padding: 1.25rem 1.5rem;
+                padding: 2rem 1.5rem;
                 border-radius: 12px;
                 max-width: 100%;
+                min-height: 75vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
             }
 
             .letter-paper::before {
-                font-size: 18rem;
+                display: none;
             }
 
             .letter-greeting {
@@ -641,25 +646,30 @@
             }
 
             .celebration-text {
-                padding: 2rem 1.5rem;
+                padding: 3rem 2rem;
                 max-width: 90%;
+                min-height: 75vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
             }
 
             .celebration-title {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
             }
 
             .celebration-message {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
             }
 
             .celebration-heart {
-                font-size: 3rem;
-                margin: 1.5rem 0;
+                font-size: 4rem;
+                margin: 2rem 0;
             }
 
             .celebration-screenshot {
-                font-size: 0.9rem;
+                font-size: 1rem;
             }
 
             .music-toggle {
