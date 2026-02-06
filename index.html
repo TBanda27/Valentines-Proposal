@@ -591,7 +591,7 @@
             
             <div class="form-group">
                 <label>Your Valentine's Name 😍</label>
-                <input type="text" id="valentineName" placeholder="e.g., Sophie" required>
+                <input type="text" id="valentineName" placeholder="e.g., Lorraine" required>
             </div>
 
             <button class="generate-btn" onclick="generateLink()">
@@ -673,15 +673,11 @@ I can't imagine my days without you...`;
                     showLetterExperience();
                 } catch (e) {
                     console.error('Invalid data', e);
-                    // Invalid data - default to Lorraine
-                    letterData = { name: 'Lorraine' };
-                    showLetterExperience();
+                    // Invalid data - stay on creator page
+                    showCreator();
                 }
-            } else {
-                // No parameter - default to Lorraine
-                letterData = { name: 'Lorraine' };
-                showLetterExperience();
             }
+            // No else - stay on creator page if no data parameter
         }
 
         function createHeartsBackground() {
