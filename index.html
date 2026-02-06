@@ -337,9 +337,14 @@
 
         .letter-greeting {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.8rem;
+            font-size: 1.35rem;
             color: #c41e3a;
             margin-bottom: 0.5rem;
+        }
+
+        .valentine-name {
+            font-size: 1.6rem;
+            font-weight: 700;
         }
 
         .letter-body {
@@ -374,14 +379,16 @@
 
         /* Responsive font sizes */
         @media (min-width: 768px) {
-            .letter-greeting { font-size: 2rem; }
+            .letter-greeting { font-size: 1.5rem; }
+            .valentine-name { font-size: 1.75rem; }
             .letter-body { font-size: 1.5rem; }
             .letter-question { font-size: 2.1rem; }
             .letter-closing { font-size: 1.6rem; }
         }
 
         @media (min-width: 1024px) {
-            .letter-greeting { font-size: 2.2rem; }
+            .letter-greeting { font-size: 1.6rem; }
+            .valentine-name { font-size: 1.85rem; }
             .letter-body { font-size: 1.6rem; }
             .letter-question { font-size: 2.3rem; }
             .letter-closing { font-size: 1.7rem; }
@@ -508,7 +515,7 @@
             left: 0;
             right: 0;
             font-size: 0.95rem;
-            color: #999;
+            color: rgba(196, 30, 58, 0.5);
             font-style: italic;
         }
 
@@ -587,8 +594,12 @@
             }
 
             .letter-greeting {
-                font-size: 1.5rem;
+                font-size: 1.15rem;
                 margin-bottom: 0.3rem;
+            }
+
+            .valentine-name {
+                font-size: 1.35rem;
             }
 
             .letter-body {
@@ -662,7 +673,11 @@
             }
 
             .letter-greeting {
-                font-size: 1.3rem;
+                font-size: 1.05rem;
+            }
+
+            .valentine-name {
+                font-size: 1.25rem;
             }
 
             .letter-body {
@@ -892,6 +907,12 @@ I can't imagine my days without you...`;
 
             // Type greeting
             await typeText(greeting, `My Dearest ${letterData.name},`, 120);
+            // Style the name bigger + bold
+            const typedGreeting = greeting.querySelector('.typed-text');
+            typedGreeting.innerHTML = typedGreeting.innerHTML.replace(
+                letterData.name,
+                `<span class="valentine-name">${letterData.name}</span>`
+            );
             await delay(600);
 
             // Type body
