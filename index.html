@@ -337,19 +337,15 @@
 
         .letter-greeting {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.35rem;
+            font-size: 2.5rem;
+            font-weight: 700;
             color: #c41e3a;
             margin-bottom: 0.5rem;
         }
 
-        .valentine-name {
-            font-size: 1.6rem;
-            font-weight: 700;
-        }
-
         .letter-body {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.35rem;
+            font-size: 2rem;
             color: #8b3a3a;
             line-height: 1.5;
             margin-bottom: 0.5rem;
@@ -357,7 +353,7 @@
 
         .letter-question {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.9rem;
+            font-size: 2.5rem;
             color: #c41e3a;
             text-align: center;
             margin: 0.8rem 0;
@@ -371,7 +367,7 @@
 
         .letter-closing {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.4rem;
+            font-size: 2rem;
             color: #c41e3a;
             text-align: right;
             margin-top: 0.5rem;
@@ -379,19 +375,17 @@
 
         /* Responsive font sizes */
         @media (min-width: 768px) {
-            .letter-greeting { font-size: 1.5rem; }
-            .valentine-name { font-size: 1.75rem; }
-            .letter-body { font-size: 1.5rem; }
-            .letter-question { font-size: 2.1rem; }
-            .letter-closing { font-size: 1.6rem; }
+            .letter-greeting { font-size: 2.5rem; }
+            .letter-body { font-size: 2rem; }
+            .letter-question { font-size: 2.5rem; }
+            .letter-closing { font-size: 2rem; }
         }
 
         @media (min-width: 1024px) {
-            .letter-greeting { font-size: 1.6rem; }
-            .valentine-name { font-size: 1.85rem; }
-            .letter-body { font-size: 1.6rem; }
-            .letter-question { font-size: 2.3rem; }
-            .letter-closing { font-size: 1.7rem; }
+            .letter-greeting { font-size: 2.8rem; }
+            .letter-body { font-size: 2.2rem; }
+            .letter-question { font-size: 2.8rem; }
+            .letter-closing { font-size: 2.2rem; }
         }
 
         /* Typing cursor */
@@ -594,26 +588,22 @@
             }
 
             .letter-greeting {
-                font-size: 1.15rem;
+                font-size: 1.6rem;
                 margin-bottom: 0.3rem;
             }
 
-            .valentine-name {
-                font-size: 1.35rem;
-            }
-
             .letter-body {
-                font-size: 1.15rem;
+                font-size: 1.3rem;
                 line-height: 1.45;
             }
 
             .letter-question {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
                 margin: 0.5rem 0;
             }
 
             .letter-closing {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
                 margin-top: 0.3rem;
             }
 
@@ -673,24 +663,20 @@
             }
 
             .letter-greeting {
-                font-size: 1.05rem;
-            }
-
-            .valentine-name {
-                font-size: 1.25rem;
+                font-size: 1.4rem;
             }
 
             .letter-body {
-                font-size: 1.05rem;
+                font-size: 1.15rem;
                 line-height: 1.4;
             }
 
             .letter-question {
-                font-size: 1.3rem;
+                font-size: 1.4rem;
             }
 
             .letter-closing {
-                font-size: 1.1rem;
+                font-size: 1.15rem;
             }
 
             .yes-btn {
@@ -907,12 +893,6 @@ I can't imagine my days without you...`;
 
             // Type greeting
             await typeText(greeting, `My Dearest ${letterData.name},`, 120);
-            // Style the name bigger + bold
-            const typedGreeting = greeting.querySelector('.typed-text');
-            typedGreeting.innerHTML = typedGreeting.innerHTML.replace(
-                letterData.name,
-                `<span class="valentine-name">${letterData.name}</span>`
-            );
             await delay(600);
 
             // Type body
