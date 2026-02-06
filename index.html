@@ -673,15 +673,11 @@ I can't imagine my days without you...`;
                     showLetterExperience();
                 } catch (e) {
                     console.error('Invalid data', e);
-                    // Default to Lorraine
-                    letterData = { name: 'Lorraine' };
-                    showLetterExperience();
+                    // Invalid data - stay on creator page
+                    showCreator();
                 }
-            } else {
-                // Default to Lorraine
-                letterData = { name: 'Lorraine' };
-                showLetterExperience();
             }
+            // No else - stay on creator page if no data parameter
         }
 
         function createHeartsBackground() {
