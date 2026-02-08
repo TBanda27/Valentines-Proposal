@@ -272,9 +272,15 @@
             background: linear-gradient(180deg, #fffef8 0%, #faf6ed 100%);
             border-radius: 8px;
             padding: 1.5rem 2rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 0 40px rgba(230, 57, 80, 0.08);
             position: relative;
             overflow: hidden;
+            animation: paperGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes paperGlow {
+            0%, 100% { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 0 40px rgba(230, 57, 80, 0.08); }
+            50% { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 0 60px rgba(230, 57, 80, 0.18), 0 0 100px rgba(255, 182, 193, 0.1); }
         }
 
         .letter-paper.celebrating {
