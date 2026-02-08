@@ -557,6 +557,29 @@
             .letter-closing { font-size: 2.2rem; }
         }
 
+        /* Name flourish underline */
+        .name-flourish {
+            display: block;
+            margin: 0.1rem auto 0;
+            width: 0;
+            height: 20px;
+            overflow: visible;
+            transition: width 1s ease-out;
+        }
+
+        .name-flourish.animate {
+            width: 120px;
+        }
+
+        @media (min-width: 768px) {
+            .name-flourish.animate { width: 150px; }
+        }
+
+        @media (max-width: 600px) {
+            .name-flourish.animate { width: 90px; }
+            .name-flourish { height: 16px; }
+        }
+
         /* Typed character glow */
         .char-glow {
             display: inline;
@@ -1185,6 +1208,13 @@ I can't imagine my days without you...`;
 
             // Type greeting
             await typeText(greeting, `My Dearest ${letterData.name},`, 120);
+            // Add flourish under the name
+            const flourishSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            flourishSvg.setAttribute('viewBox', '0 0 150 20');
+            flourishSvg.setAttribute('class', 'name-flourish');
+            flourishSvg.innerHTML = '<path d="M5 10 C25 2, 45 18, 75 10 C105 2, 125 18, 145 10" stroke="#c41e3a" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/><path d="M20 10 C40 16, 60 4, 75 10 C90 16, 110 4, 130 10" stroke="#c41e3a" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.3"/>';
+            greeting.appendChild(flourishSvg);
+            requestAnimationFrame(() => flourishSvg.classList.add('animate'));
             await delay(600);
 
             // Type body
