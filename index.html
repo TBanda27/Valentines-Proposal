@@ -637,6 +637,45 @@
             padding: 1.5rem;
             padding-bottom: 3.5rem;
             animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            overflow: hidden;
+        }
+
+        /* Radial glow behind celebration content */
+        .celebration-overlay::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -55%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 105, 135, 0.2) 0%, rgba(255, 182, 193, 0.1) 40%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.7; transform: translate(-50%, -55%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -55%) scale(1.15); }
+        }
+
+        /* Floating hearts rising from bottom of celebration */
+        .celebration-float-heart {
+            position: absolute;
+            bottom: -30px;
+            font-size: 1.2rem;
+            animation: floatUp var(--duration, 4s) ease-in infinite;
+            animation-delay: var(--delay, 0s);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-400px) scale(1); opacity: 0; }
         }
 
         .celebration-overlay.active {
@@ -1181,6 +1220,18 @@ I can't imagine my days without you...`;
             // Show celebration overlay on the letter paper
             paper.classList.add('celebrating');
             overlay.classList.add('active');
+
+            // Add floating hearts inside celebration overlay
+            const floatHearts = ['❤️', '💕', '💗', '💖', '🩷'];
+            for (let i = 0; i < 12; i++) {
+                const h = document.createElement('div');
+                h.className = 'celebration-float-heart';
+                h.textContent = floatHearts[Math.floor(Math.random() * floatHearts.length)];
+                h.style.left = (5 + Math.random() * 90) + '%';
+                h.style.setProperty('--duration', (3 + Math.random() * 3) + 's');
+                h.style.setProperty('--delay', (Math.random() * 4) + 's');
+                overlay.appendChild(h);
+            }
 
             // Launch confetti explosion
             launchConfetti();
