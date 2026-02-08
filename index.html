@@ -73,6 +73,25 @@
                 opacity: 0.2;
             }
         }
+
+        /* Gold sparkle particles */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffd700 0%, #ffec8b 60%, transparent 100%);
+            pointer-events: none;
+            animation: twinkle var(--duration, 3s) ease-in-out infinite;
+            animation-delay: var(--delay, 0s);
+            box-shadow: 0 0 6px 2px rgba(255, 215, 0, 0.4);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 0.9; transform: scale(1.2); }
+        }
+
         /* Creator Page */
         .creator-container {
             min-height: 100vh;
@@ -827,6 +846,18 @@ I can't imagine my days without you...`;
                 heart.style.setProperty('--rotation', (Math.random() * 20 - 10) + 'deg');
                 container.appendChild(heart);
             });
+
+            // Create gold sparkles
+            for (let i = 0; i < 25; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.width = sparkle.style.height = (2 + Math.random() * 4) + 'px';
+                sparkle.style.setProperty('--duration', (2 + Math.random() * 4) + 's');
+                sparkle.style.setProperty('--delay', (Math.random() * 5) + 's');
+                container.appendChild(sparkle);
+            }
 
             // Create falling hearts
             for (let i = 0; i < 15; i++) {
