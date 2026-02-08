@@ -441,8 +441,10 @@
             color: #999;
             border: none;
             border-radius: 50px;
-            cursor: not-allowed;
+            cursor: pointer;
             opacity: 0.6;
+            position: relative;
+            transition: transform 0.1s ease;
         }
 
         /* Celebration - overlays the letter paper */
@@ -741,7 +743,7 @@
             
             <div class="button-container" id="buttonContainer">
                 <button class="yes-btn" id="yesBtn" onclick="celebrate()">Yes! 💕</button>
-                <button class="no-btn" id="noBtn" disabled>No</button>
+                <button class="no-btn" id="noBtn" onmouseover="runAway(this)" ontouchstart="runAway(this)">No</button>
             </div>
         </div>
     </div>
@@ -1057,6 +1059,17 @@ I can't imagine my days without you...`;
             });
 
             requestAnimationFrame(() => animateConfetti(canvas, ctx));
+        }
+
+        function runAway(btn) {
+            const container = btn.parentElement;
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = btn.getBoundingClientRect();
+            const maxX = containerRect.width - btnRect.width;
+            const maxY = 80;
+            const randomX = (Math.random() - 0.5) * maxX;
+            const randomY = -(Math.random() * maxY + 20);
+            btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
         }
 
         document.addEventListener('DOMContentLoaded', init);
