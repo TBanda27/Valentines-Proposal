@@ -292,6 +292,7 @@
             border-radius: 4px 4px 8px 8px;
             box-shadow: 0 15px 50px rgba(0,0,0,0.15);
             overflow: visible;
+            perspective: 600px;
         }
 
         /* Envelope body bottom fold lines */
@@ -556,6 +557,17 @@
             .letter-closing { font-size: 2.2rem; }
         }
 
+        /* Typed character glow */
+        .char-glow {
+            display: inline;
+            animation: charGlow 0.8s ease-out forwards;
+        }
+
+        @keyframes charGlow {
+            0% { text-shadow: 0 0 8px rgba(230, 57, 80, 0.6), 0 0 16px rgba(255, 182, 193, 0.4); }
+            100% { text-shadow: none; }
+        }
+
         /* Typing cursor */
         .typing-cursor {
             display: inline-block;
@@ -647,8 +659,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -55%);
-            width: 300px;
-            height: 300px;
+            width: min(300px, 80vw);
+            height: min(300px, 80vw);
             background: radial-gradient(circle, rgba(255, 105, 135, 0.2) 0%, rgba(255, 182, 193, 0.1) 40%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
@@ -779,6 +791,15 @@
                 overflow: hidden;
             }
 
+            .envelope { width: 240px; height: 155px; }
+            .envelope-flap {
+                border-left: 120px solid transparent;
+                border-right: 120px solid transparent;
+                border-top: 85px solid #e8d0b8;
+            }
+            .envelope-seal { top: 22px; font-size: 1.6rem; }
+            .envelope-tap-hint { font-size: 1.2rem; margin-top: 1rem; }
+
             .letter-paper {
                 padding: 1.2rem 1.5rem;
                 border-radius: 12px;
@@ -867,6 +888,14 @@
 
         /* Extra small screens */
         @media (max-width: 380px) {
+            .envelope { width: 210px; height: 135px; }
+            .envelope-flap {
+                border-left: 105px solid transparent;
+                border-right: 105px solid transparent;
+                border-top: 75px solid #e8d0b8;
+            }
+            .envelope-seal { top: 18px; font-size: 1.4rem; }
+
             .creator-title {
                 font-size: 1.7rem;
             }
@@ -1187,7 +1216,10 @@ I can't imagine my days without you...`;
                         if (char === '\n') {
                             typedText.innerHTML += '<br>';
                         } else {
-                            typedText.innerHTML += char;
+                            const span = document.createElement('span');
+                            span.className = 'char-glow';
+                            span.textContent = char;
+                            typedText.appendChild(span);
                         }
                         i++;
                         setTimeout(type, speed);
@@ -1339,13 +1371,16 @@ I can't imagine my days without you...`;
         }
 
         function runAway(btn) {
-            const container = btn.parentElement;
-            const containerRect = container.getBoundingClientRect();
             const btnRect = btn.getBoundingClientRect();
-            const maxX = containerRect.width - btnRect.width;
-            const maxY = 80;
-            const randomX = (Math.random() - 0.5) * maxX;
-            const randomY = -(Math.random() * maxY + 20);
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+            // Calculate safe bounds so button stays on screen
+            const safeLeft = -btnRect.left + 10;
+            const safeRight = vw - btnRect.right - 10;
+            const safeTop = -btnRect.top + 10;
+            const safeBottom = vh - btnRect.bottom - 10;
+            const randomX = safeLeft + Math.random() * (safeRight - safeLeft);
+            const randomY = safeTop + Math.random() * (safeBottom - safeTop);
             btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
         }
 
