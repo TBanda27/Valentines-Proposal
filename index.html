@@ -17,8 +17,18 @@
         body {
             min-height: 100vh;
             background: linear-gradient(135deg, #fff5f5 0%, #ffe4e8 50%, #ffd6e0 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 12s ease infinite;
             font-family: 'Quicksand', sans-serif;
             overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 0%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
         }
 
         /* Hearts Background - Static + Falling */
