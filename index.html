@@ -757,6 +757,33 @@
             font-style: italic;
         }
 
+        .download-gif-btn {
+            margin-top: 0.75rem;
+            padding: 0.6rem 1.5rem;
+            background: linear-gradient(135deg, #e63950, #c41e3a);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(230, 57, 80, 0.3);
+            z-index: 1;
+            position: relative;
+        }
+
+        .download-gif-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .download-gif-btn:disabled {
+            opacity: 0.7;
+            cursor: wait;
+            transform: none;
+        }
+
         /* Confetti Canvas */
         #confettiCanvas {
             position: fixed;
@@ -890,6 +917,11 @@
             .celebration-screenshot {
                 bottom: 1rem;
                 font-size: 0.85rem;
+            }
+
+            .download-gif-btn {
+                font-size: 0.85rem;
+                padding: 0.5rem 1.2rem;
             }
 
             .link-output {
@@ -1033,6 +1065,7 @@
                     <div class="celebration-title" id="celebrationTitle">Name is my Valentine!</div>
                     <div class="celebration-heart">❤️</div>
                     <div class="celebration-message">You have made me the happiest person in the world.</div>
+                    <button class="download-gif-btn" id="downloadGifBtn" onclick="downloadVideo()" style="display:none;">Save for WhatsApp 📱</button>
                     <div class="celebration-screenshot">Screenshot this and send it to me! 📸</div>
                 </div>
             </div>
@@ -1059,7 +1092,7 @@ I can't imagine my days without you...`;
         // Initialize
         function init() {
             createHeartsBackground();
-            
+
             const params = new URLSearchParams(window.location.search);
             const data = params.get('d');
             
@@ -1160,9 +1193,13 @@ I can't imagine my days without you...`;
             // Show envelope first, user clicks to open
         }
 
-        function openEnvelope() {
+        async function openEnvelope() {
             const wrapper = document.getElementById('envelopeWrapper');
             if (wrapper.classList.contains('opening')) return;
+
+            // Request native screen recording (tab capture)
+            await requestScreenRecording();
+
             wrapper.classList.add('opening');
 
             // After flap opens, hide envelope and show letter
@@ -1205,7 +1242,6 @@ I can't imagine my days without you...`;
             const question = document.getElementById('letterQuestion');
             const closing = document.getElementById('letterClosing');
             const buttonContainer = document.getElementById('buttonContainer');
-
             // Type greeting
             await typeText(greeting, `My Dearest ${letterData.name},`, 120);
             // Add flourish under the name
@@ -1228,6 +1264,9 @@ I can't imagine my days without you...`;
             // Type closing
             await typeText(closing, `With all my love ❤️`, 120);
             await delay(500);
+
+            // Pause recording — idle time waiting for Yes won't be in the video
+            pauseRecording();
 
             // Show buttons
             buttonContainer.classList.add('visible');
@@ -1295,8 +1334,19 @@ I can't imagine my days without you...`;
                 overlay.appendChild(h);
             }
 
+            // Resume recording for celebration
+            resumeRecording();
+
             // Launch confetti explosion
             launchConfetti();
+
+            // Stop recording after celebration plays, then show download button
+            setTimeout(async () => {
+                storedVideoBlob = await stopRecording();
+                if (storedVideoBlob) {
+                    document.getElementById('downloadGifBtn').style.display = 'inline-block';
+                }
+            }, 5000);
         }
 
         // Confetti Animation - lasts ~2 minutes with continuous bursts
@@ -1412,6 +1462,99 @@ I can't imagine my days without you...`;
             const randomX = safeLeft + Math.random() * (safeRight - safeLeft);
             const randomY = safeTop + Math.random() * (safeBottom - safeTop);
             btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        // ========== Native Screen Recording ==========
+        let mediaRecorder = null;
+        let recordedChunks = [];
+        let mediaStream = null;
+        let storedVideoBlob = null;
+
+        async function requestScreenRecording() {
+            try {
+                mediaStream = await navigator.mediaDevices.getDisplayMedia({
+                    video: { displaySurface: 'browser', frameRate: 30 },
+                    selfBrowserSurface: 'include',
+                    preferCurrentTab: true,
+                });
+
+                let mimeType = 'video/webm';
+                if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9')) {
+                    mimeType = 'video/webm;codecs=vp9';
+                } else if (MediaRecorder.isTypeSupported('video/mp4')) {
+                    mimeType = 'video/mp4';
+                }
+
+                mediaRecorder = new MediaRecorder(mediaStream, {
+                    mimeType,
+                    videoBitsPerSecond: 4000000,
+                });
+                recordedChunks = [];
+
+                mediaRecorder.ondataavailable = e => {
+                    if (e.data.size > 0) recordedChunks.push(e.data);
+                };
+
+                // Handle user stopping the share early
+                mediaStream.getVideoTracks()[0].onended = () => {
+                    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                        mediaRecorder.stop();
+                    }
+                };
+
+                mediaRecorder.start(100);
+                return true;
+            } catch(e) {
+                console.warn('Screen recording not available:', e);
+                return false;
+            }
+        }
+
+        function pauseRecording() {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.pause();
+            }
+        }
+
+        function resumeRecording() {
+            if (mediaRecorder && mediaRecorder.state === 'paused') {
+                mediaRecorder.resume();
+            }
+        }
+
+        function stopRecording() {
+            return new Promise((resolve) => {
+                if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+                    resolve(null);
+                    return;
+                }
+
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(recordedChunks, { type: mediaRecorder.mimeType });
+                    if (mediaStream) {
+                        mediaStream.getTracks().forEach(t => t.stop());
+                    }
+                    resolve(blob);
+                };
+
+                mediaRecorder.stop();
+            });
+        }
+
+        async function downloadVideo() {
+            if (!storedVideoBlob) return;
+            const btn = document.getElementById('downloadGifBtn');
+            const ext = storedVideoBlob.type.includes('mp4') ? 'mp4' : 'webm';
+            const url = URL.createObjectURL(storedVideoBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `my-valentine.${ext}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 10000);
+            btn.textContent = 'Saved! ✓';
+            setTimeout(() => { btn.textContent = 'Save for WhatsApp 📱'; }, 3000);
         }
 
         document.addEventListener('DOMContentLoaded', init);
